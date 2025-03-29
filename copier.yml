@@ -30,5 +30,13 @@ author_name:
 
 _year: "{{ now().year }}"
 
+_templates_suffix: ".j2"
+
 _exclude:
+  - .git
+  - copier.yml
+  - "~*",
+  - "*.py[co]",
+  - "__pycache__"
+  - ".DS_Store"
   - .github/workflows/template-test.yml

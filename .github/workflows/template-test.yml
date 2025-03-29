@@ -12,7 +12,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Lint Code
+    name: Validate Template
 
     steps:
       - name: Checkout Code
