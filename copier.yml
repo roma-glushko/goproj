@@ -1,26 +1,31 @@
 project_name:
   type: str
   help: What is your project name?
+  default: goproj
   placeholder: goproj
 
 module_name:
   type: str
   help: What is your module name?
+  default: github.com/roma-glushko/goproj
   placeholder: github.com/roma-glushko/goproj
 
 project_descr:
   type: str
   help: What is your project description?
+  default: A new Go project
   placeholder: A new Go project
 
 go_version:
   type: str
   help: What is your Go version?
+  default: 1.24.1
   placeholder: 1.24.1
 
 author_name:
   type: str
   help: What is your full name?
+  default: Roma Hlushko
   placeholder: Roma Hlushko
 
 _year: "{{ now().year }}"
