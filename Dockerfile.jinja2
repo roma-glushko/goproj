@@ -1,0 +1,26 @@
+# syntax=docker/dockerfile:1
+FROM golang:{{go_version}}-alpine as build
+
+ARG COMMIT
+ARG BUILD_DATE
+
+ENV GOOS=linux
+
+WORKDIR /build
+
+COPY . /build/
+RUN go mod download
+
+RUN COMMIT_SHA=${COMMIT} && \
+    BUILD_DATE_FINAL=${BUILD_DATE:-$(date -u +"%Y-%m-%dT%H:%M:%SZ")} && \
+    go build -ldflags "-s -w \
+    -X {{module_name}}/internal/version.GitCommit=${COMMIT_SHA} \
+    -X {{module_name}}/internal/version.BuildDate=${BUILD_DATE_FINAL}" \
+    -o /build/dist/{{project_name}}
+
+FROM gcr.io/distroless/static-debian12:nonroot as release
+
+WORKDIR /bin
+COPY --from=build /build/dist/{{project_name}} /bin/
+
+ENTRYPOINT ["/bin/goproj", "hello"]
