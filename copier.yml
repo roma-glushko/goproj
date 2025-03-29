@@ -24,3 +24,6 @@ author_name:
   placeholder: Roma Hlushko
 
 _year: "{{ now().year }}"
+
+_exclude:
+  - .github/workflows/template-test.yml

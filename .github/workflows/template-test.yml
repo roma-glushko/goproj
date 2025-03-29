@@ -1,0 +1,32 @@
+name: Validate Template
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint Code
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python & uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Copier
+        run: |
+          uv tool install copier
+
+      - name: Generate Test Project
+        run: |
+          copier copy . goprojtest --defaults
