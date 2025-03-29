@@ -35,8 +35,8 @@ _templates_suffix: ".j2"
 _exclude:
   - .git
   - copier.yml
-  - "~*",
-  - "*.py[co]",
+  - "~*"
+  - "*.py[co]"
   - "__pycache__"
   - ".DS_Store"
   - .github/workflows/template-test.yml
