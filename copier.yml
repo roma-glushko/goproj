@@ -1,3 +1,6 @@
+_templates_suffix: ".j2"
+_subdirectory: project
+
 project_name:
   type: str
   help: What is your project name?
@@ -28,15 +31,8 @@ author_name:
   default: Roma Hlushko
   placeholder: Roma Hlushko
 
-_year: "{{ now().year }}"
-
-_templates_suffix: ".j2"
-
-_exclude:
-  - .git
-  - copier.yml
-  - "~*"
-  - "*.py[co]"
-  - "__pycache__"
-  - ".DS_Store"
-  - .github/workflows/template-test.yml
+current_year:
+    type: str
+    help: What is the current year?
+    default: "2025"
+    placeholder: "2025"
