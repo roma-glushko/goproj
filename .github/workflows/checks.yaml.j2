@@ -58,7 +58,7 @@ jobs:
 
       - name: Add Go Bin to PATH
         run: |
-          echo "${{ github.workspace }}/go/bin" >> $GITHUB_PATH
+          {% raw %}echo "${{ github.workspace }}/go/bin" >> $GITHUB_PATH{% endraw %}
 
       - name: Ensure Code Generated
         run: |
