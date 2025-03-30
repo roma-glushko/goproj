@@ -37,9 +37,9 @@ jobs:
             ~/Library/Caches/go-build
             %LocalAppData%\go-build
             bin
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          key: {% raw %}${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}{% endraw %}
           restore-keys: |
-            ${{ runner.os }}-go-
+            {% raw %}${{ runner.os }}-go-{% endraw %}
 
       - name: Run Golang Lint Command
         run: |
