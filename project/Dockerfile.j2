@@ -25,4 +25,4 @@ FROM gcr.io/distroless/static-debian12:nonroot as release
 WORKDIR /bin
 COPY --from=build /build/dist/{{project_name}} /bin/
 
-ENTRYPOINT ["/bin/goproj", "hello"]
+ENTRYPOINT ["/bin/{{project_name}}", "hello"]
