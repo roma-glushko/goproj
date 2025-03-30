@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM golang:{{go_version}}-alpine as build
 
+ARG VERSION
 ARG COMMIT
 ARG BUILD_DATE
 
@@ -14,6 +15,7 @@ RUN go mod download
 RUN COMMIT_SHA=${COMMIT} && \
     BUILD_DATE_FINAL=${BUILD_DATE:-$(date -u +"%Y-%m-%dT%H:%M:%SZ")} && \
     go build -ldflags "-s -w \
+    -X {{module_name}}/internal/version.Version=${VERSION} \
     -X {{module_name}}/internal/version.GitCommit=${COMMIT_SHA} \
     -X {{module_name}}/internal/version.BuildDate=${BUILD_DATE_FINAL}" \
     -o /build/dist/{{project_name}}
