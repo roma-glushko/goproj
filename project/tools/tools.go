@@ -1,6 +1,3 @@
-// Copyright (C) 2024-Present NasmiJewels.com
-// All Rights Reserved.
-
 //go:build tools
 
 package tools
