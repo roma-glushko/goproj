@@ -31,6 +31,12 @@ author_name:
   default: Roma Hlushko
   placeholder: Roma Hlushko
 
+author_gh_username:
+  type: str
+  help: What is your GitHub username?
+  default: roma-glushko
+  placeholder: roma-glushko
+
 current_year:
     type: str
     help: What is the current year?
