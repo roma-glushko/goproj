@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  test-gen:
+    desc: Run tests and generate code
+    cmds:
+      - copier copy . ./goprojtest --defaults
