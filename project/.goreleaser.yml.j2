@@ -7,10 +7,15 @@ before:
 
 builds:
   - binary: {{project_name}}
+    mod_timestamp: {% raw %}"{{ .CommitTimestamp }}"{% endraw %}
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X {{module_name}}/internal/version.Version={% raw %}{{.Tag}}{% endraw %} -X {{module_name}}/internal/version.GitCommit={% raw %}{{.ShortCommit}}{% endraw %} -X {{module_name}}/internal/version.BuildDate={% raw %}{{.Date}}{% endraw %}
+      - >
+        -s -w
+        -X "{{module_name}}/internal/version.Version={% raw %}{{ .Tag }}{% endraw %}"
+        -X "{{module_name}}/internal/version.GitCommit={% raw %}{{ .ShortCommit }}{% endraw %}"
+        -X "{{module_name}}/internal/version.BuildDate={{% raw %}{ .CommitDate }}{% endraw %}"
     goos:
       - linux
       - darwin
@@ -43,29 +48,58 @@ builds:
 
 changelog:
   use: github
-  sort: asc
+  sort: '' # use the output of `git log` as is
   abbrev: -1
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - '^Merge pull request'
+      - '^Merge remote-tracking branch'
+      - '^Merge branch'
+      - "^README.md"
   groups:
-    - title: 'Breaking changes'
-      regexp: '^.*?(\([[:word:]]+\))??!:.+$'
+    - title: '💥 Breaking Changes'
+      regexp: '^.*?break(\([[:word:]]+\))??!?:.+$'
       order: 0
-    - title: 'Enhancements'
-      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+    - title: '💥 Breaking Changes'
+      regexp: "^.*?:boom:.+"
+      order: 0
+    - title: '✨ Features'
+      regexp: '^.*?(feat|feature)(\([[:word:]]+\))??!?:.+$'
       order: 1
-    - title: 'Fixes'
-      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+    - title: '✨ Features'
+      regexp: "^.*?:sparkles:.+"
+      order: 1
+    - title: '🐛 Quality'
+      regexp: '^.*?(fix|tests|test)(\([[:word:]]+\))??!?:.+$'
       order: 2
-    - title: 'Internal'
+    - title: '🐛 Quality'
+      regexp: "^.*?:bug:.+"
+      order: 2
+    - title: '⚡️ Performance'
+      regexp: '^.*?perf(\(.*\))?:.*$'
+      order: 3
+    - title: '⚡️ Performance'
+      regexp: "^.*?:zap:.+"
+      order: 2
+    - title: '🔒 Security'
+      regexp: '^.*?(sec|upgrade)(\(.*\))?:.*$'
+      order: 4
+    - title: '🔒 Security'
+      regexp: '^.*?:lock:.+'
+      order: 4
+    - title: '📖 Docs'
+      regexp: '^.*?(doc|docs)(\(.*\))?:.*$'
+      order: 5
+    - title: '📖 Docs'
+      regexp: '^.*?:book:.+'
+      order: 5
+    - title: '🧹Misc' # chore(...), build(...), etc.
       regexp: '^.+$'
       order: 999
 
 archives:
   - id: {{project_name}}
-    {% raw %}name_template: '{{ .ProjectName }}_v{{ .Tag }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'{% endraw %}
+    {% raw %}name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'{% endraw %}
     formats:
       - tar.gz
     format_overrides:
@@ -142,3 +176,13 @@ release:
   #
   # Templates: allowed
   name_template: {% raw %}"v{{.Version}}"{% endraw %}
+
+  footer: |
+      **Full Changelog**: https://github.com/{{ author_gh_username }}/{{ project_name }}/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+      Your feedback is more than welcome, feel free to open issues/discussions.
+      You can reach out to the team using:
+
+      - [Github Discussions](https://github.com/{{ author_gh_username }}/{{ project_name }}/discussions)
+      - [Github Issues](https://github.com/{{ author_gh_username }}/{{ project_name }}/issues)
+
