@@ -38,7 +38,7 @@ author_gh_username:
   placeholder: roma-glushko
 
 current_year:
-    type: str
-    help: What is the current year?
-    default: "2025"
-    placeholder: "2025"
+  type: str
+  help: What is the current year?
+  default: "2025"
+  placeholder: "2025"
