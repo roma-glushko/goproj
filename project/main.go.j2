@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/urfave/cli/v2"
-	"log"
+	"log/slog"
 	"os"
+
+	"github.com/urfave/cli/v2"
 
 	"{{module_name}}/cmd"
 	"{{module_name}}/internal/version"
@@ -23,8 +24,21 @@ func main() {
 			&cli.BoolFlag{
 				Name:    "debug",
 				Aliases: []string{"d"},
-				Usage:   "set verbose level",
+				Usage:   "enable debug logging",
 			},
+		},
+		Before: func(c *cli.Context) error {
+			level := slog.LevelInfo
+			if c.Bool("debug") {
+				level = slog.LevelDebug
+			}
+
+			logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
+				Level: level,
+			}))
+			slog.SetDefault(logger)
+
+			return nil
 		},
 		Commands: []*cli.Command{
 			cmd.HelloCommand,
@@ -32,6 +46,7 @@ func main() {
 	}
 
 	if err := cliApp.Run(os.Args); err != nil {
-		log.Fatal(err)
+		slog.Error("application error", "error", err)
+		os.Exit(1)
 	}
 }

@@ -42,3 +42,7 @@ current_year:
   help: What is the current year?
   default: "2025"
   placeholder: "2025"
+
+_tasks:
+  - "go mod tidy"
+  - "git init"

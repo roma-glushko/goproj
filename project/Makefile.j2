@@ -38,8 +38,12 @@ lint: install-tools ## Lint the source code
 	@$(BIN_DIR)/goreleaser check
 
 .PHONY: run
-run: ## Run Frens
+run: ## Run the application
 	@go run -ldflags $(LDFLAGS_COMMON) main.go -- $(filter-out $@,$(MAKECMDGOALS))
+
+.PHONY: dev
+dev: install-tools ## Run with live reload (air)
+	@$(BIN_DIR)/air
 
 .PHONY: build
 build: ## Build Frens
